@@ -3,6 +3,7 @@ import './App.css';
 
 function App() {
   const [allTeams, setTeams] = useState<null | {teams: Array<object>}>(null);
+  const [loading, setLoading] = useState(true);
   const url = 'http://api.football-data.org/v2/competitions/2021/teams'
   // url = 'https://api.football-data.org/v2/teams/1044/'
 
@@ -21,6 +22,7 @@ function App() {
         // Examine the text in the response
         response.json().then((data) => {
           setTeams({teams: data.teams});
+          setLoading(false)
         });
       }
     )
@@ -34,6 +36,8 @@ function App() {
       <header className="App-header">
         Team Picker
       </header>
+
+      { loading && 'loading teams...' }
       <p>Choose a team</p>
 
       <select>
