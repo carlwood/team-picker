@@ -31,8 +31,11 @@
 .container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding: 0 5vw;
   min-height: calc(100vh - 60px);
+}
+
+.container > div {
+  padding: 0 5vw;
 }
 
 .pitch {

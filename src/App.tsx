@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import TeamDropdown from './Components/TeamDropdown'
+import PlayerList from './Components/PlayerList'
 import './App.css';
 
 function App() {
-  const [allTeams, setTeams] = useState<null | {teams: Array<object>}>(null);
-  const [selectedSquad, setSelectedSquad] = useState<null | { squad: Array<object> }>(null);
+  const [allTeams, setTeams] = useState<null | Array<object>>(null);
+  const [selectedSquad, setSelectedSquad] = useState<null |  Array<object>>(null);
   const [loading, setLoading] = useState(true);
   const url = 'http://api.football-data.org/v2/competitions/2021/teams'
 
@@ -22,7 +23,7 @@ function App() {
 
         // Examine the text in the response
         response.json().then((data) => {
-          setTeams({teams: data.teams});
+          setTeams(data.teams);
           setLoading(false)
         });
       }
@@ -30,7 +31,7 @@ function App() {
     .catch((err) => {
       console.log('Fetch Error :-S', err);
     });
-  }, [])
+  }, [setTeams])
 
   const handleChange = (event: any) => { // todo: event type
     const selectedTeam = event.target.value
@@ -48,10 +49,8 @@ function App() {
 
         // Examine the text in the response
         response.json().then((data) => {
-          setSelectedSquad({ squad: data.squad });
+          setSelectedSquad(data.squad);
           // setLoading(false)
-          console.log(data.squad);
-          console.log(selectedSquad)
         });
       }
     )
@@ -72,17 +71,8 @@ function App() {
             ? <p>Loading teams...</p> :
             <TeamDropdown allTeams={allTeams} handleChange={handleChange} />
           }
-
-          { selectedSquad && 
-            selectedSquad.squad.map((player: any) => {
-              if (player.position)
-                return (
-                  <p key={player.id}>
-                    {player.position} | 
-                    {player.name}
-                  </p>
-                )
-            })
+          { selectedSquad &&
+            <PlayerList squad={selectedSquad} />
           }
         </div>
         <div className="pitch">
