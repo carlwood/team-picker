@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import TeamDropdown from './Components/TeamDropdown'
 import './App.css';
 
 function App() {
@@ -65,33 +66,29 @@ function App() {
         Team Picker
       </header>
 
-      { loading && 'loading teams...' }
-      <p>Choose a team</p>
+      <div className="container">
+        <div>
+          { loading
+            ? <p>Loading teams...</p> :
+            <TeamDropdown allTeams={allTeams} handleChange={handleChange} />
+          }
 
-      <select onChange={handleChange}>
-        <option value="">Choose a team</option>
-        {allTeams && 
-          allTeams.teams.map((team:any) => {
-            return (
-              <option key={team.id} value={team.id}>
-                {team.name}
-              </option>
-            )
-          })
-        }
-      </select>
-
-      { selectedSquad && 
-        selectedSquad.squad.map((player: any) => {
-          return (
-            <p key={player.id}>
-              {player.position} 
-              {player.position && ' | ' }
-              {player.name}
-            </p>
-          )
-        })
-      }
+          { selectedSquad && 
+            selectedSquad.squad.map((player: any) => {
+              if (player.position)
+                return (
+                  <p key={player.id}>
+                    {player.position} | 
+                    {player.name}
+                  </p>
+                )
+            })
+          }
+        </div>
+        <div className="pitch">
+          <p>Pitch</p>
+        </div>
+      </div>
     </div>
   );
 }
