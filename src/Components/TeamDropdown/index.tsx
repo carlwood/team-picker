@@ -14,19 +14,21 @@ const TeamDropdown = (props:any) => {
 
   return (
     <>
-      <p>Choose a team</p>
-      <select onChange={handleChange}>
-        <option value="">Choose a team</option>
-        {
-          orderedTeams.sort().map((team: any) => {
-            return (
-              <option key={team.id} value={team.id}>
-                {team.name}
-              </option>
-            )
-          })
-        }
-      </select>
+      <form>
+        <label htmlFor="choose-team">Choose a team</label>
+        <select onChange={handleChange} id="choose-team">
+          <option value="">Choose a team</option>
+          {
+            orderedTeams.sort().map((team: any) => {
+              return (
+                <option key={team.id} value={team.id}>
+                  {team.name}
+                </option>
+              )
+            })
+          }
+        </select>
+      </form>
     </>
   )
 }
